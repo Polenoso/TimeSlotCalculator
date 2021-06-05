@@ -25,4 +25,13 @@ final class TimeSlotsCalculatorTests: XCTestCase {
         
         XCTAssertEqual(response, .flat)
     }
+    
+    func testAtSevenAMShouldReturnValleyHour(){
+        let calculator = TimeSlotsCalculator()
+        let date = dateFormatter.date(from: "01/01/2001 7:00:00")!
+        
+        let response = calculator.getTimeSlot(for: date)
+        
+        XCTAssertEqual(response, .valley)
+    }
 }
