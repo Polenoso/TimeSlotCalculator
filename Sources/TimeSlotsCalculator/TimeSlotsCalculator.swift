@@ -6,6 +6,9 @@ public enum TimeSlotsErrors: Error {
 
 public struct TimeSlotsCalculator {
     private static let dateComponents: Set<Calendar.Component> = [.day, .month, .year, .hour, .minute, .second]
+    
+    private static let flatHours: Set<Int> = [8, 9, 14, 15, 16, 17, 22, 23]
+    
     public func getTimeSlot(for date: Date) throws -> TimeSlot {
         let components = Calendar.current.dateComponents(Self.dateComponents,
                                            from: date)
@@ -15,7 +18,7 @@ public struct TimeSlotsCalculator {
             return .valley
         }
         
-        if hour < 12 {
+        if Self.flatHours.contains(hour) {
             return .flat
         }
         

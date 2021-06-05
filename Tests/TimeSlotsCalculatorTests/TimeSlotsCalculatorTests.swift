@@ -4,7 +4,7 @@ import XCTest
 final class TimeSlotsCalculatorTests: XCTestCase {
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy hh:mm:ss"
+        formatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
         return formatter
     }()
     
@@ -33,5 +33,23 @@ final class TimeSlotsCalculatorTests: XCTestCase {
         let response = try? calculator.getTimeSlot(for: date)
         
         XCTAssertEqual(response, .valley)
+    }
+    
+    func testAtMidnightShouldReturnValleyHour(){
+        let calculator = TimeSlotsCalculator()
+        let date = dateFormatter.date(from: "01/01/2001 00:00:00")!
+        
+        let response = try? calculator.getTimeSlot(for: date)
+        
+        XCTAssertEqual(response, .valley)
+    }
+    
+    func testAt14hShouldReturnFlatHour() {
+        let calculator = TimeSlotsCalculator()
+        let date = dateFormatter.date(from: "01/01/2001 14:00:00")!
+        
+        let response = try? calculator.getTimeSlot(for: date)
+        
+        XCTAssertEqual(response, .flat)
     }
 }
