@@ -1,11 +1,21 @@
 import Foundation
 
+public enum TimeSlotsErrors: Error {
+    case invalidDateHour
+}
+
 public struct TimeSlotsCalculator {
     private static let dateComponents: Set<Calendar.Component> = [.day, .month, .year, .hour, .minute, .second]
-    public func getTimeSlot(for date: Date) -> TimeSlot {
+    public func getTimeSlot(for date: Date) throws -> TimeSlot {
         let components = Calendar.current.dateComponents(Self.dateComponents,
                                            from: date)
-        if let hour = components.hour, hour < 12 {
+        guard let hour = components.hour else { throw TimeSlotsErrors.invalidDateHour }
+        
+        if hour < 8 {
+            return .valley
+        }
+        
+        if hour < 12 {
             return .flat
         }
         

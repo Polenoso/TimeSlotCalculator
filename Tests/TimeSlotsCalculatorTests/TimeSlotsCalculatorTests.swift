@@ -12,7 +12,7 @@ final class TimeSlotsCalculatorTests: XCTestCase {
         let calculator = TimeSlotsCalculator()
         let date = dateFormatter.date(from: "01/01/2001 12:00:00")!
         
-        let response = calculator.getTimeSlot(for: date)
+        let response = try? calculator.getTimeSlot(for: date)
         
         XCTAssertEqual(response, .rush)
     }
@@ -21,7 +21,7 @@ final class TimeSlotsCalculatorTests: XCTestCase {
         let calculator = TimeSlotsCalculator()
         let date = dateFormatter.date(from: "01/01/2001 8:00:00")!
         
-        let response = calculator.getTimeSlot(for: date)
+        let response = try? calculator.getTimeSlot(for: date)
         
         XCTAssertEqual(response, .flat)
     }
@@ -30,7 +30,7 @@ final class TimeSlotsCalculatorTests: XCTestCase {
         let calculator = TimeSlotsCalculator()
         let date = dateFormatter.date(from: "01/01/2001 7:00:00")!
         
-        let response = calculator.getTimeSlot(for: date)
+        let response = try? calculator.getTimeSlot(for: date)
         
         XCTAssertEqual(response, .valley)
     }
