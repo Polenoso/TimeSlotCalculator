@@ -2,15 +2,9 @@ import XCTest
 @testable import TimeSlotsCalculator
 
 final class TimeSlotsCalculatorTests: XCTestCase {
-    let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
-        return formatter
-    }()
-    
     func testAtMiddayShouldReturnRushHour() {
-        let calculator = TimeSlotsCalculator()
-        let date = dateFormatter.date(from: "01/01/2001 12:00:00")!
+        let calculator = TimeSlotsCalculator(holidays: [])
+        let date = Date.midday
         
         let response = try? calculator.getTimeSlot(for: date)
         
@@ -18,8 +12,8 @@ final class TimeSlotsCalculatorTests: XCTestCase {
     }
     
     func testAtEightShouldReturnFlatHour() {
-        let calculator = TimeSlotsCalculator()
-        let date = dateFormatter.date(from: "01/01/2001 8:00:00")!
+        let calculator = TimeSlotsCalculator(holidays: [])
+        let date = Date.am8
         
         let response = try? calculator.getTimeSlot(for: date)
         
@@ -27,8 +21,8 @@ final class TimeSlotsCalculatorTests: XCTestCase {
     }
     
     func testAtSevenAMShouldReturnValleyHour(){
-        let calculator = TimeSlotsCalculator()
-        let date = dateFormatter.date(from: "01/01/2001 7:00:00")!
+        let calculator = TimeSlotsCalculator(holidays: [])
+        let date = Date.am7
         
         let response = try? calculator.getTimeSlot(for: date)
         
@@ -36,8 +30,8 @@ final class TimeSlotsCalculatorTests: XCTestCase {
     }
     
     func testAtMidnightShouldReturnValleyHour(){
-        let calculator = TimeSlotsCalculator()
-        let date = dateFormatter.date(from: "01/01/2001 00:00:00")!
+        let calculator = TimeSlotsCalculator(holidays: [])
+        let date = Date.midnight
         
         let response = try? calculator.getTimeSlot(for: date)
         
@@ -45,11 +39,29 @@ final class TimeSlotsCalculatorTests: XCTestCase {
     }
     
     func testAt14hShouldReturnFlatHour() {
-        let calculator = TimeSlotsCalculator()
-        let date = dateFormatter.date(from: "01/01/2001 14:00:00")!
+        let calculator = TimeSlotsCalculator(holidays: [])
+        let date = Date.pm14
         
         let response = try? calculator.getTimeSlot(for: date)
         
         XCTAssertEqual(response, .flat)
+    }
+    
+    func testAt17hShouldReturnFlatHour() {
+        let calculator = TimeSlotsCalculator(holidays: [])
+        let date = Date.pm17
+        
+        let response = try? calculator.getTimeSlot(for: date)
+        
+        XCTAssertEqual(response, .flat)
+    }
+    
+    func testAt21hShouldReturnRushHour() {
+        let calculator = TimeSlotsCalculator(holidays: [])
+        let date = Date.pm21
+        
+        let response = try? calculator.getTimeSlot(for: date)
+        
+        XCTAssertEqual(response, .rush)
     }
 }

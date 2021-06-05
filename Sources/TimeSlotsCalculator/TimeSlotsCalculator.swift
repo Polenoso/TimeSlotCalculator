@@ -8,6 +8,11 @@ public struct TimeSlotsCalculator {
     private static let dateComponents: Set<Calendar.Component> = [.day, .month, .year, .hour, .minute, .second]
     
     private static let flatHours: Set<Int> = [8, 9, 14, 15, 16, 17, 22, 23]
+    private var holidays: Set<Date> = []
+    
+    public init(holidays: Set<Date>) {
+        self.holidays = holidays
+    }
     
     public func getTimeSlot(for date: Date) throws -> TimeSlot {
         let components = Calendar.current.dateComponents(Self.dateComponents,
