@@ -1,3 +1,13 @@
-struct TimeSlotsCalculator {
-    var text = "Hello, World!"
+import Foundation
+
+public struct TimeSlotsCalculator {
+    public func getTimeSlot(for date: TimeInterval) -> TimeSlot {
+        return .rush
+    }
+}
+
+public enum TimeSlot: String {
+    case rush
+    case valley
+    case flat
 }
