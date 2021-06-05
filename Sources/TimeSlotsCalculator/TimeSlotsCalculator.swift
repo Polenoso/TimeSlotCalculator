@@ -5,9 +5,14 @@ public enum TimeSlotsErrors: Error {
 }
 
 public struct TimeSlotsCalculator {
-    private static let dateComponents: Set<Calendar.Component> = [.day, .month, .year, .hour, .minute, .second]
-    
-    private static let flatHours: Set<Int> = [8, 9, 14, 15, 16, 17, 22, 23]
+    private enum Configuration {
+        static let dateComponents: Set<Calendar.Component> = [.day, .month, .year, .hour, .minute, .second]
+        
+        static let endValleyHour: Int = 8
+        
+        static let flatHours: Set<Int> = [8, 9, 14, 15, 16, 17, 22, 23]
+    }
+
     private var holidays: Set<Date> = []
     
     public init(holidays: Set<Date>) {
@@ -15,19 +20,35 @@ public struct TimeSlotsCalculator {
     }
     
     public func getTimeSlot(for date: Date) throws -> TimeSlot {
-        let components = Calendar.current.dateComponents(Self.dateComponents,
+        let components = Calendar.current.dateComponents(Configuration.dateComponents,
                                            from: date)
-        guard let hour = components.hour else { throw TimeSlotsErrors.invalidDateHour }
         
-        if hour < 8 {
+        if try isValley(components: components) {
             return .valley
         }
         
-        if Self.flatHours.contains(hour) {
+        if try isFlat(components: components) {
             return .flat
         }
         
         return .rush
+    }
+    
+    private func isFlat(components: DateComponents) throws -> Bool {
+        guard let hour = components.hour else { throw TimeSlotsErrors.invalidDateHour }
+        
+        return Configuration.flatHours.contains(hour)
+    }
+    
+    private func isValley(components: DateComponents) throws -> Bool {
+        guard let hour = components.hour else { throw TimeSlotsErrors.invalidDateHour }
+        
+        return isHoliday(components: components)
+            || hour < Configuration.endValleyHour
+    }
+    
+    private func isHoliday(components: DateComponents) -> Bool {
+        return false
     }
 }
 
