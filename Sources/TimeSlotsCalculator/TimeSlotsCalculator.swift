@@ -1,7 +1,7 @@
 import Foundation
 
 public struct TimeSlotsCalculator {
-    public func getTimeSlot(for date: TimeInterval) -> TimeSlot {
+    public func getTimeSlot(for date: Date) -> TimeSlot {
         return .rush
     }
 }
