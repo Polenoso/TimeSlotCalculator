@@ -19,6 +19,8 @@ public struct TimeSlotsCalculator {
         self.holidays = holidays
     }
     
+    /// Get time slot from a date given, date must contain day, month, year and hour at least
+    /// @return TImeSlot time slot from date given (valley, flat, rush)
     public func getTimeSlot(for date: Date) throws -> TimeSlot {
         let components = Calendar.current.dateComponents(Configuration.dateComponents,
                                            from: date)
@@ -34,6 +36,8 @@ public struct TimeSlotsCalculator {
         return .rush
     }
     
+    // MARK: - Private
+    
     private func isFlat(components: DateComponents) throws -> Bool {
         guard let hour = components.hour else { throw TimeSlotsErrors.invalidDateHour }
         
@@ -48,7 +52,9 @@ public struct TimeSlotsCalculator {
     }
     
     private func isHoliday(components: DateComponents) -> Bool {
-        return false
+        holidays
+            .map { Calendar.current.dateComponents(Configuration.dateComponents, from: $0) }
+            .contains { $0.day == components.day && $0.month == components.month && $0.year == components.year }
     }
 }
 
