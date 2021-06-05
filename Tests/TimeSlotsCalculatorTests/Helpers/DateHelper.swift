@@ -31,4 +31,6 @@ extension Date {
     static var holiday: Date { normalFormatter.date(from: "21/01/2001 00:00:00")! }
     
     static var middayHoliday: Date { normalFormatter.date(from: "21/01/2001 12:00:00")! }
+    
+    static var weekendMidday: Date { normalFormatter.date(from: "6/01/2001 12:00:00")! }
 }

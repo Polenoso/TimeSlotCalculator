@@ -25,7 +25,7 @@ public struct TimeSlotsCalculator {
         let components = Calendar.current.dateComponents(Configuration.dateComponents,
                                            from: date)
         
-        if try isValley(components: components) {
+        if try isValley(date, components: components) {
             return .valley
         }
         
@@ -44,14 +44,19 @@ public struct TimeSlotsCalculator {
         return Configuration.flatHours.contains(hour)
     }
     
-    private func isValley(components: DateComponents) throws -> Bool {
+    private func isValley(_ date: Date, components: DateComponents) throws -> Bool {
         guard let hour = components.hour else { throw TimeSlotsErrors.invalidDateHour }
         
-        return isHoliday(components: components)
+        return isHoliday(components)
+            || isWeekend(date)
             || hour < Configuration.endValleyHour
     }
     
-    private func isHoliday(components: DateComponents) -> Bool {
+    private func isWeekend(_ date: Date) -> Bool {
+        Calendar.current.isDateInWeekend(date)
+    }
+    
+    private func isHoliday(_ components: DateComponents) -> Bool {
         holidays
             .map { Calendar.current.dateComponents(Configuration.dateComponents, from: $0) }
             .contains { $0.day == components.day && $0.month == components.month && $0.year == components.year }

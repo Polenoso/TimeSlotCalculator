@@ -73,4 +73,13 @@ final class TimeSlotsCalculatorTests: XCTestCase {
         
         XCTAssertEqual(response, .valley)
     }
+    
+    func testWeekendMiddayShouldReturnValleyHour() {
+        let calculator = TimeSlotsCalculator(holidays: [])
+        let date = Date.weekendMidday
+        
+        let response = try? calculator.getTimeSlot(for: date)
+        
+        XCTAssertEqual(response, .valley)
+    }
 }
