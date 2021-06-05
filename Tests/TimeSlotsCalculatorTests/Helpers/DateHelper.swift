@@ -27,4 +27,8 @@ extension Date {
     static var pm17: Date { normalFormatter.date(from: "01/01/2001 17:00:00")! }
     
     static var pm21: Date { normalFormatter.date(from: "01/01/2001 21:00:00")! }
+    
+    static var holiday: Date { normalFormatter.date(from: "21/01/2001 00:00:00")! }
+    
+    static var middayHoliday: Date { normalFormatter.date(from: "21/01/2001 12:00:00")! }
 }
