@@ -20,6 +20,7 @@ public struct TimeSlotsCalculator {
     }
     
     /// Get time slot from a date given, date must contain day, month, year and hour at least
+    /// It depends on the current timezone of the device
     /// @return TImeSlot time slot from date given (valley, flat, rush)
     public func getTimeSlot(for date: Date) throws -> TimeSlot {
         let components = Calendar.current.dateComponents(Configuration.dateComponents,
