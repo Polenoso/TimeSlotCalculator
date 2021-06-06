@@ -9,7 +9,10 @@ Use the package manager [SPM](https://swift.org/package-manager/) to add TimeSlo
 ```Swift
 dependencies: [
         .package(url: "https://github.com/Polenoso/TimeSlotCalculator.git", from: "1.0.0"),
-    ]
+    ],
+targets:
+ .target("yourtarget",
+        dependencies: [TimeSlotsCalculator])
 ```
 
 ## Usage
